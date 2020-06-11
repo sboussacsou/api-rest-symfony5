@@ -1,0 +1,17 @@
+# config/packages/security.yaml
+security:
+
+    providers:
+        api_key_user_provider:
+            entity: {class: App\Entity\UserApi }
+
+    firewalls:
+
+        main:
+            pattern: ^/api
+            logout: ~
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator
+                entry_point: App\Security\TokenAuthenticator
+            provider :

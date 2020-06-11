@@ -1,0 +1,6 @@
+docker build -t sboussacsou/apache:2.4 ./apache/
+docker build -t sboussacsou/php-fpm:7.2 ./php-fpm/
+docker build -t sboussacsou/data_application ./data_application/
+docker build -t sboussacsou/data_mysql ./data_mysql/
+docker build -t sboussacsou/mysql:5.7 ./mysql/
+docker build -t sboussacsou/phpmyadmin:4.6 ./phpmyadmin/

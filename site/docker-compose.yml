@@ -1,0 +1,52 @@
+version: '2'
+services:
+    project_application:
+        container_name: project_application
+        image: sboussacsou/data_application
+        volumes:
+            - .:/var/www/html
+    project_data:
+        container_name:  project_data
+        image: sboussacsou/data_mysql
+        volumes:
+            - ../Data:/var/lib/mysql
+    project_database:
+        container_name:  project_database
+        image: sboussacsou/mysql:5.7
+        ports:
+            - 60001:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: facture
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test
+        volumes_from:
+            -  project_data
+    project_phpmyadmin:
+        container_name:  project_phpmyadmin
+        image: sboussacsou/phpmyadmin:4.6
+        ports:
+            - 60002:80
+        links:
+            -  project_database:db
+        environment:
+            - PMA_USER=root
+            - PMA_PASSWORD=root
+    project_php:
+        container_name:  project_php
+        image: sboussacsou/php-fpm:7.1
+        volumes_from:
+            -  project_application
+    project_web:
+        container_name:  project_web
+        image: sboussacsou/apache:2.4
+        ports:
+            - 60000:80
+        environment:
+            FPM_HOST:  project_php:9000
+            XDEBUG_CONFIG: remote_host=172.22.0.1
+        volumes_from:
+            -  project_application
+        links:
+            -  project_database
+            -  project_php

@@ -1,0 +1,14 @@
+# config/packages/security.yaml
+security:
+    # ...
+
+    firewalls:
+        # ...
+
+        main:
+            pattern: ^/api
+            logout: ~
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator
+                entry_point: App\Security\TokenAuthenticator
